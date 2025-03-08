@@ -2,7 +2,9 @@
 
 use App\Services\UserServices;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use App\Models\User;
+use App\Services\ProductService;
 //use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 //use GuzzleHttp\Psr7\Request;
@@ -70,4 +72,16 @@ Route::get('/token', function (Request $request) {
 
 Route::post('/token', function (Request $request) {
     return $request-> all();
+});
+
+//Controller -> Middleware
+Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
+
+//Resource
+Route::resource('products', ProductController::class);
+
+//view with data
+Route::get('/product-list', function(ProductService $productService){
+    $data['products']= $productService->listProducts();
+    return view('Products.list', $data);
 });
