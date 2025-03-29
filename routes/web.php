@@ -11,9 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 
+//WELCOME
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['name' => 'perin-app']);
 });
+
+//USERS
+Route::get('/users', [UserController::class, 'index']);
+
+//PRODUCTS
+Route::resource('products', ProductController::class);
 
 Route::get('/test-container', function (Request $request){
     $input= $request->input('key');
@@ -74,11 +81,11 @@ Route::post('/token', function (Request $request) {
     return $request-> all();
 });
 
-//Controller -> Middleware
-Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
+// //Controller -> Middleware
+// Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
 
-//Resource
-Route::resource('products', ProductController::class);
+// //Resource
+// Route::resource('products', ProductController::class);
 
 //view with data
 Route::get('/product-list', function(ProductService $productService){
